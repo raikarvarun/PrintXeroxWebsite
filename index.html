@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quick Print - Online Printing</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">🖨️</div>
+
+            <div>
+                <h1>Quick Print</h1>
+                <span>Print. Pick up. Done.</span>
+            </div>
+        </div>
+
+        <button class="track-top-btn" onclick="showTrackSection()">
+            Track Order
+        </button>
+    </header>
+
+
+    <main>
+
+        <!-- UPLOAD SECTION -->
+        <section class="upload-section" id="uploadSection">
+
+            <div class="hero">
+                <span class="badge">FAST & EASY PRINTING</span>
+
+                <h2>
+                    Upload your document,
+                    <span>we'll print it.</span>
+                </h2>
+
+                <p>
+                    Send your PDF or image from your phone
+                    and collect your print from the shop.
+                </p>
+            </div>
+
+
+            <!-- Upload Card -->
+            <div class="card">
+
+                <label for="fileInput" class="upload-box" id="uploadBox">
+
+                    <div class="upload-icon">
+                        📄
+                    </div>
+
+                    <h3>Upload your document</h3>
+
+                    <p>
+                        Tap here to select a PDF, JPG or PNG
+                    </p>
+
+                    <span class="file-limit">
+                        Maximum 25 MB
+                    </span>
+
+                </label>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    hidden
+                >
+
+
+                <!-- Selected file -->
+                <div class="selected-file" id="selectedFile">
+
+                    <div class="file-icon">
+                        📄
+                    </div>
+
+                    <div class="file-info">
+                        <strong id="fileName">document.pdf</strong>
+                        <span id="fileSize">0 MB</span>
+                    </div>
+
+                    <button
+                        class="remove-file"
+                        onclick="removeFile()"
+                        type="button">
+                        ×
+                    </button>
+
+                </div>
+
+
+                <!-- Settings -->
+                <div class="settings">
+
+                    <div class="setting-row">
+
+                        <div class="setting-label">
+                            <strong>Copies</strong>
+                            <span>Number of copies</span>
+                        </div>
+
+                        <div class="quantity">
+                            <button
+                                type="button"
+                                onclick="changeCopies(-1)">
+                                −
+                            </button>
+
+                            <span id="copies">1</span>
+
+                            <button
+                                type="button"
+                                onclick="changeCopies(1)">
+                                +
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-label">
+                            <strong>Print mode</strong>
+                            <span>Choose printing type</span>
+                        </div>
+
+                        <div class="segmented">
+
+                            <button
+                                type="button"
+                                class="active"
+                                id="bwButton"
+                                onclick="selectColorMode('B&W')">
+                                B&W
+                            </button>
+
+                            <button
+                                type="button"
+                                id="colorButton"
+                                onclick="selectColorMode('COLOR')">
+                                Color
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-label">
+                            <strong>Paper size</strong>
+                            <span>Choose paper size</span>
+                        </div>
+
+                        <select id="paperSize">
+                            <option value="A4">A4</option>
+                            <option value="A3">A3</option>
+                            <option value="LETTER">Letter</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Submit -->
+                <button
+                    class="print-button"
+                    id="printButton"
+                    onclick="submitJob()"
+                    disabled>
+
+                    Upload & Send for Printing
+                </button>
+
+                <p class="approval-note">
+                    Your order will be checked by the shop before printing.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- SUCCESS SECTION -->
+        <section
+            class="result-section hidden"
+            id="resultSection">
+
+            <div class="success-card">
+
+                <div class="success-icon">
+                    ✓
+                </div>
+
+                <h2>Order Received!</h2>
+
+                <p>
+                    Your document has been sent to the shop.
+                    Please wait for approval.
+                </p>
+
+
+                <div class="job-number">
+
+                    <span>Your Job ID</span>
+
+                    <strong id="jobToken">
+                        XP-123456
+                    </strong>
+
+                </div>
+
+
+                <div class="status-box">
+
+                    <div class="status-dot"></div>
+
+                    <div>
+                        <strong>Waiting for approval</strong>
+                        <span>Shop is checking your document.</span>
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    onclick="showTrackSection()">
+
+                    Track Order
+                </button>
+
+
+                <button
+                    class="secondary-button"
+                    onclick="newOrder()">
+
+                    Send Another Document
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- TRACK SECTION -->
+        <section
+            class="track-section hidden"
+            id="trackSection">
+
+            <div class="track-card">
+
+                <button
+                    class="back-button"
+                    onclick="showUploadSection()">
+
+                    ← Back
+                </button>
+
+                <h2>Track your order</h2>
+
+                <p>
+                    Enter the Job ID you received after uploading.
+                </p>
+
+
+                <div class="track-input">
+
+                    <input
+                        type="text"
+                        id="trackToken"
+                        placeholder="Example: XP-123456"
+                        autocomplete="off">
+
+                    <button
+                        onclick="trackJob()">
+
+                        Track
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="track-result hidden"
+                    id="trackResult">
+
+                    <div class="track-job-id">
+                        <span>Job ID</span>
+                        <strong id="trackJobId">XP-123456</strong>
+                    </div>
+
+
+                    <div class="order-status">
+
+                        <div
+                            class="status-circle"
+                            id="statusCircle">
+                            ✓
+                        </div>
+
+                        <div>
+                            <strong id="trackStatus">
+                                Waiting for approval
+                            </strong>
+
+                            <span id="trackMessage">
+                                Your document is being checked.
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 Quick Print
+        </p>
+
+        <span>
+            Your documents are processed by the shop.
+        </span>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+
